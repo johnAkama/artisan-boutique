@@ -127,22 +127,28 @@ function Home() {
         <div style={{ textAlign: 'left' }}>
 
             {/* ══ HERO ══ */}
-            <section style={{ position: 'relative', height: isMobile ? '100svh' : '94vh', overflow: 'hidden', minHeight: '520px' }}>
+            <section style={{ position: 'relative', height: isMobile ? `calc(100svh - 68px)` : '94vh', overflow: 'hidden', minHeight: '560px' }}>
                 <div ref={heroRef} style={{
                     position: 'absolute', inset: '-80px 0',
                     backgroundImage: `url(${heroImg})`, backgroundSize: 'cover', backgroundPosition: 'center',
                     transform: `translateY(${offset}px)`, willChange: 'transform',
                 }} />
-                <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(110deg, rgba(44,26,14,0.82) 0%, rgba(44,26,14,0.45) 60%, rgba(44,26,14,0.2) 100%)' }} />
+                <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(160deg, rgba(44,26,14,0.88) 0%, rgba(44,26,14,0.65) 50%, rgba(44,26,14,0.45) 100%)' }} />
                 <div style={{
-                    position: 'relative', zIndex: 1, height: '100%',
-                    display: 'flex', flexDirection: 'column', justifyContent: 'center',
-                    padding: heroPad, maxWidth: '860px',
+                    position: 'relative', zIndex: 1,
+                    height: '100%',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    justifyContent: isMobile ? 'flex-end' : 'center',
+                    padding: isMobile ? '0 24px 120px' : isTablet ? '0 40px 80px' : '0 72px',
+                    width: '100%',
+                    boxSizing: 'border-box',
+                    maxWidth: '860px',
                 }}>
                     <div style={{
                         display: 'inline-flex', alignItems: 'center', gap: '8px',
                         background: 'rgba(196,154,108,0.2)', border: '1px solid rgba(196,154,108,0.5)',
-                        borderRadius: '999px', padding: '6px 16px', marginBottom: '24px', width: 'fit-content',
+                        borderRadius: '999px', padding: '6px 16px', marginBottom: '20px', width: 'fit-content',
                     }}>
                         <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: 'var(--gold)', display: 'inline-block' }} />
                         <span style={{ color: 'var(--gold)', fontSize: '12px', fontWeight: 600, letterSpacing: '2px', textTransform: 'uppercase' }}>
@@ -151,37 +157,39 @@ function Home() {
                     </div>
                     <h1 style={{
                         color: '#fff', fontFamily: 'var(--serif)',
-                        fontSize: isMobile ? 'clamp(38px, 11vw, 56px)' : 'clamp(44px, 7.5vw, 96px)',
-                        lineHeight: 1.0, letterSpacing: '-2px', margin: '0 0 24px',
+                        fontSize: isMobile ? 'clamp(36px, 10vw, 52px)' : 'clamp(44px, 7.5vw, 96px)',
+                        lineHeight: 1.05,
+                        letterSpacing: isMobile ? '-1px' : '-2px',
+                        margin: '0 0 20px',
                     }}>
                         {t.home_hero_line1}<br />
                         <span style={{ color: 'var(--gold)' }}>{t.home_hero_line2}</span>
                     </h1>
                     <p style={{
-                        color: 'rgba(255,255,255,0.72)', fontSize: isMobile ? '15px' : '18px',
-                        lineHeight: 1.75, maxWidth: '440px', margin: '0 0 36px',
+                        color: 'rgba(255,255,255,0.8)', fontSize: isMobile ? '15px' : '18px',
+                        lineHeight: 1.7, maxWidth: '440px', margin: '0 0 32px',
                     }}>
                         {t.home_hero_sub}
                     </p>
                     <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
                         <Link to="/products" style={{
-                            padding: isMobile ? '12px 24px' : '14px 34px', borderRadius: '999px',
+                            padding: isMobile ? '13px 26px' : '14px 34px', borderRadius: '999px',
                             background: 'var(--accent)', color: '#fff',
-                            fontWeight: 600, fontSize: isMobile ? '14px' : '15px', textDecoration: 'none',
+                            fontWeight: 600, fontSize: '15px', textDecoration: 'none',
                             boxShadow: '0 4px 24px rgba(139,94,60,0.5)', transition: 'all 0.2s ease',
                         }}
                             onMouseEnter={e => { e.currentTarget.style.background = 'var(--accent-hover)'; e.currentTarget.style.transform = 'scale(1.03)'; }}
                             onMouseLeave={e => { e.currentTarget.style.background = 'var(--accent)'; e.currentTarget.style.transform = 'scale(1)'; }}
                         >{t.home_hero_cta1}</Link>
                         <Link to="/about" style={{
-                            padding: isMobile ? '12px 24px' : '14px 34px', borderRadius: '999px',
-                            background: 'rgba(255,255,255,0.1)', color: '#fff',
-                            fontWeight: 500, fontSize: isMobile ? '14px' : '15px', textDecoration: 'none',
-                            border: '1px solid rgba(255,255,255,0.3)', backdropFilter: 'blur(8px)',
+                            padding: isMobile ? '13px 26px' : '14px 34px', borderRadius: '999px',
+                            background: 'rgba(255,255,255,0.12)', color: '#fff',
+                            fontWeight: 500, fontSize: '15px', textDecoration: 'none',
+                            border: '1px solid rgba(255,255,255,0.35)', backdropFilter: 'blur(8px)',
                             transition: 'all 0.2s ease',
                         }}
-                            onMouseEnter={e => e.currentTarget.style.background = 'rgba(255,255,255,0.18)'}
-                            onMouseLeave={e => e.currentTarget.style.background = 'rgba(255,255,255,0.1)'}
+                            onMouseEnter={e => e.currentTarget.style.background = 'rgba(255,255,255,0.2)'}
+                            onMouseLeave={e => e.currentTarget.style.background = 'rgba(255,255,255,0.12)'}
                         >{t.home_hero_cta2}</Link>
                     </div>
                 </div>
@@ -189,18 +197,22 @@ function Home() {
                 {/* Stats strip */}
                 <div style={{
                     position: 'absolute', bottom: 0, left: 0, right: 0,
-                    background: 'rgba(44,26,14,0.65)', backdropFilter: 'blur(12px)',
+                    background: 'rgba(44,26,14,0.72)', backdropFilter: 'blur(12px)',
                     borderTop: '1px solid rgba(255,255,255,0.1)',
                     display: 'flex', justifyContent: 'center', flexWrap: 'wrap',
                 }}>
                     {[['200+', t.stat_artisans], ['14', t.stat_countries], ['5,000+', t.stat_sold], ['4.9★', t.stat_rating]].map(([num, label], i) => (
                         <div key={label} style={{
-                            padding: isMobile ? '14px 20px' : '20px 40px', textAlign: 'center',
-                            borderRight: i < 3 ? '1px solid rgba(255,255,255,0.1)' : 'none',
-                            flex: isMobile ? '1 1 45%' : 'none',
+                            padding: isMobile ? '12px 0' : '18px 40px',
+                            textAlign: 'center',
+                            flex: isMobile ? '1 1 50%' : 'none',
+                            borderRight: isMobile
+                                ? (i % 2 === 0 ? '1px solid rgba(255,255,255,0.1)' : 'none')
+                                : (i < 3 ? '1px solid rgba(255,255,255,0.1)' : 'none'),
+                            borderTop: isMobile && i >= 2 ? '1px solid rgba(255,255,255,0.1)' : 'none',
                         }}>
-                            <div style={{ color: 'var(--gold)', fontFamily: 'var(--serif)', fontSize: isMobile ? '18px' : '22px', fontWeight: 700 }}>{num}</div>
-                            <div style={{ color: 'rgba(255,255,255,0.6)', fontSize: '11px', letterSpacing: '1px', textTransform: 'uppercase', marginTop: '2px' }}>{label}</div>
+                            <div style={{ color: 'var(--gold)', fontFamily: 'var(--serif)', fontSize: isMobile ? '17px' : '22px', fontWeight: 700 }}>{num}</div>
+                            <div style={{ color: 'rgba(255,255,255,0.6)', fontSize: '10px', letterSpacing: '1px', textTransform: 'uppercase', marginTop: '2px' }}>{label}</div>
                         </div>
                     ))}
                 </div>

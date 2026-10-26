@@ -163,35 +163,39 @@ function About() {
         <div style={{ textAlign: 'left', overflow: 'hidden' }}>
 
             {/* ── HERO ── */}
-            <div style={{ position: 'relative', height: isMobile ? '100svh' : '92vh', overflow: 'hidden', minHeight: '520px' }}>
+            <div style={{ position: 'relative', height: isMobile ? `calc(100svh - 68px)` : '92vh', overflow: 'hidden', minHeight: '560px' }}>
                 <div ref={heroRef} style={{
                     position: 'absolute', inset: '-80px 0',
                     backgroundImage: `url(${heroImg})`, backgroundSize: 'cover', backgroundPosition: 'center',
                     transform: `translateY(${heroOffset}px)`, willChange: 'transform',
                 }} />
-                <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(160deg, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.35) 60%, rgba(0,0,0,0.7) 100%)' }} />
+                <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(160deg, rgba(0,0,0,0.82) 0%, rgba(0,0,0,0.55) 55%, rgba(0,0,0,0.65) 100%)' }} />
                 <div style={{
                     position: 'relative', zIndex: 1, height: '100%',
-                    display: 'flex', flexDirection: 'column', justifyContent: 'center',
-                    padding: isMobile ? '0 24px' : isTablet ? '0 40px' : '0 64px',
-                    maxWidth: '900px',
+                    display: 'flex', flexDirection: 'column',
+                    justifyContent: isMobile ? 'flex-end' : 'center',
+                    padding: isMobile ? '0 24px 48px' : isTablet ? '0 40px' : '0 64px',
+                    width: '100%', boxSizing: 'border-box', maxWidth: '900px',
                 }}>
                     <p style={{ color: 'var(--gold)', fontWeight: 700, fontSize: '12px', letterSpacing: '3px', textTransform: 'uppercase', margin: '0 0 16px' }}>
                         {t.about_eyebrow}
                     </p>
                     <h1 style={{
-                        color: '#fff', fontSize: isMobile ? 'clamp(36px, 10vw, 56px)' : 'clamp(42px, 7vw, 88px)',
-                        lineHeight: 1.05, letterSpacing: '-2px', margin: '0 0 24px', fontWeight: 700,
+                        color: '#fff',
+                        fontSize: isMobile ? 'clamp(34px, 9vw, 52px)' : 'clamp(42px, 7vw, 88px)',
+                        lineHeight: 1.08,
+                        letterSpacing: isMobile ? '-1px' : '-2px',
+                        margin: '0 0 20px', fontWeight: 700,
                     }}>
                         {t.about_hero_title1}<br />
                         <span style={{ color: 'var(--gold)' }}>{t.about_hero_accent}</span><br />
                         {t.about_hero_title2}
                     </h1>
-                    <p style={{ color: 'rgba(255,255,255,0.75)', fontSize: isMobile ? '15px' : '18px', lineHeight: 1.8, maxWidth: '480px', margin: '0 0 36px' }}>
+                    <p style={{ color: 'rgba(255,255,255,0.8)', fontSize: isMobile ? '15px' : '18px', lineHeight: 1.75, maxWidth: '480px', margin: '0 0 32px' }}>
                         {t.about_hero_sub}
                     </p>
                     <a href="/products" style={{
-                        alignSelf: 'flex-start', padding: isMobile ? '12px 24px' : '14px 32px',
+                        alignSelf: 'flex-start', padding: isMobile ? '13px 26px' : '14px 32px',
                         borderRadius: '999px', background: 'var(--accent)', color: '#fff',
                         fontWeight: 600, fontSize: '15px', textDecoration: 'none',
                         boxShadow: '0 4px 24px rgba(139,94,60,0.45)', transition: 'transform 0.2s ease',
@@ -262,13 +266,86 @@ function About() {
                 ))}
             </div>
 
-            {/* ── TEAM ── */}
-            <div style={{ padding: isMobile ? '0 20px 64px' : '0 32px 96px', maxWidth: '700px', margin: '0 auto', textAlign: 'center' }}>
-                <p style={{ color: 'var(--gold)', fontWeight: 600, fontSize: '12px', letterSpacing: '2px', textTransform: 'uppercase', marginBottom: '12px' }}>
-                    {t.about_team_eyebrow}
-                </p>
-                <h2 style={{ fontSize: 'clamp(22px, 3vw, 32px)', marginBottom: '20px' }}>{t.about_team_title}</h2>
-                <p style={{ color: 'var(--text)', lineHeight: '1.8', fontSize: isMobile ? '15px' : '17px' }}>{t.about_team_sub}</p>
+            {/* ── FOUNDER ── */}
+            <div style={{ padding: isMobile ? '64px 20px' : isTablet ? '80px 32px' : '96px 80px', background: 'var(--bg-2)' }}>
+                <div style={{ maxWidth: '1100px', margin: '0 auto' }}>
+
+                    {/* eyebrow */}
+                    <p style={{ color: 'var(--gold)', fontWeight: 700, fontSize: '12px', letterSpacing: '3px', textTransform: 'uppercase', textAlign: 'center', marginBottom: '56px' }}>
+                        {t.about_founder_eyebrow}
+                    </p>
+
+                    {/* two-column grid */}
+                    <div style={{
+                        display: 'grid',
+                        gridTemplateColumns: isMobile ? '1fr' : '5fr 6fr',
+                        gap: isMobile ? '40px' : '72px',
+                        alignItems: 'center',
+                    }}>
+
+                        {/* IMAGE */}
+                        <div style={{ position: 'relative' }}>
+                            <div style={{
+                                borderRadius: '24px', overflow: 'hidden',
+                                aspectRatio: '4 / 5',
+                                boxShadow: '0 32px 80px rgba(139,94,60,0.2)',
+                            }}>
+                                <img
+                                    src={heroImg}
+                                    alt={t.about_founder_name}
+                                    style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center top', display: 'block' }}
+                                />
+                            </div>
+                            {/* name badge */}
+                            <div style={{
+                                position: 'absolute', bottom: '24px', left: '24px', right: '24px',
+                                background: 'rgba(139,94,60,0.92)',
+                                backdropFilter: 'blur(8px)',
+                                borderRadius: '14px', padding: '14px 20px',
+                                boxShadow: '0 8px 32px rgba(0,0,0,0.2)',
+                            }}>
+                                <p style={{ margin: 0, color: '#fff', fontFamily: 'var(--serif)', fontSize: '16px', fontWeight: 700 }}>{t.about_founder_name}</p>
+                                <p style={{ margin: '3px 0 0', color: 'rgba(255,255,255,0.75)', fontSize: '12px', letterSpacing: '0.5px' }}>{t.about_founder_role}</p>
+                            </div>
+                            {/* decorative ring */}
+                            <div style={{
+                                position: 'absolute', top: '-16px', right: '-16px',
+                                width: '100px', height: '100px', borderRadius: '50%',
+                                border: '2px solid var(--gold)', opacity: 0.4, pointerEvents: 'none',
+                            }} />
+                        </div>
+
+                        {/* TEXT */}
+                        <div>
+                            <blockquote style={{
+                                margin: '0 0 28px', padding: '0 0 0 20px',
+                                borderLeft: '3px solid var(--gold)',
+                                fontFamily: 'var(--serif)',
+                                fontSize: isMobile ? '18px' : 'clamp(18px, 2vw, 23px)',
+                                lineHeight: 1.55, color: 'var(--text-h)', fontStyle: 'italic',
+                            }}>{t.about_founder_quote}</blockquote>
+
+                            <p style={{ color: 'var(--text)', lineHeight: 1.8, fontSize: isMobile ? '15px' : '16px', marginBottom: '16px' }}>{t.about_founder_p1}</p>
+                            <p style={{ color: 'var(--text)', lineHeight: 1.8, fontSize: isMobile ? '15px' : '16px', marginBottom: '16px' }}>{t.about_founder_p2}</p>
+                            <p style={{ color: 'var(--text)', lineHeight: 1.8, fontSize: isMobile ? '15px' : '16px', marginBottom: '36px' }}>{t.about_founder_p3}</p>
+
+                            {/* signature row */}
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
+                                <div style={{
+                                    width: '48px', height: '48px', borderRadius: '50%', flexShrink: 0,
+                                    background: 'var(--accent)', color: '#fff',
+                                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                                    fontFamily: 'var(--serif)', fontSize: '20px', fontWeight: 700,
+                                }}>A</div>
+                                <div>
+                                    <p style={{ margin: 0, fontFamily: 'var(--serif)', fontWeight: 700, fontSize: '15px', color: 'var(--text-h)' }}>{t.about_founder_name}</p>
+                                    <p style={{ margin: '2px 0 0', fontSize: '12px', color: 'var(--gold)', letterSpacing: '0.5px' }}>{t.about_founder_role}</p>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
             </div>
 
         </div>
