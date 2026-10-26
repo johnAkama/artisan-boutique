@@ -1,0 +1,84 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap');
+
+:root {
+  /* ── Core palette ── */
+  --bg:             #FFFDF9;       /* warm white */
+  --bg-2:           #F5EFE6;       /* warm off-white, section fills */
+  --bg-3:           #EDE0CE;       /* deeper cream, cards/hover */
+  --text:           #7A5C44;       /* warm mid-brown body text */
+  --text-h:         #2C1A0E;       /* deep espresso headings */
+  --border:         #DDD0BC;       /* warm tan border */
+
+  /* ── Accent: chestnut brown (primary CTA) ── */
+  --accent:         #8B5E3C;
+  --accent-hover:   #6F4A2D;
+  --accent-bg:      rgba(139, 94, 60, 0.08);
+  --accent-border:  rgba(139, 94, 60, 0.35);
+
+  /* ── Accent 2: golden tan (secondary highlights) ── */
+  --gold:           #C49A6C;
+  --gold-bg:        rgba(196, 154, 108, 0.12);
+  --gold-border:    rgba(196, 154, 108, 0.4);
+
+  /* ── Accent 3: cream (badges, tags, subtle fills) ── */
+  --cream:          #E8D5B7;
+  --cream-dark:     #C8B49A;
+
+  /* ── Shadow ── */
+  --shadow:         rgba(44, 26, 14, 0.08) 0 10px 24px -4px,
+                    rgba(44, 26, 14, 0.04) 0 4px 8px -2px;
+  --shadow-sm:      rgba(44, 26, 14, 0.06) 0 4px 12px -2px;
+
+  /* ── Typography ── */
+  --sans:    'Inter', system-ui, sans-serif;
+  --serif:   'Playfair Display', Georgia, serif;
+
+  font: 17px/155% var(--sans);
+  letter-spacing: 0.15px;
+  color: var(--text);
+  background: var(--bg);
+  color-scheme: light;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+
+  @media (max-width: 1024px) { font-size: 15px; }
+}
+
+body { margin: 0; }
+
+#root {
+  width: 100%;
+  max-width: 100%;
+  margin: 0 auto;
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  background: var(--bg);
+}
+
+h1, h2, h3 {
+  font-family: var(--serif);
+  font-weight: 600;
+  color: var(--text-h);
+  line-height: 1.15;
+}
+
+h1 {
+  font-size: clamp(36px, 6vw, 72px);
+  letter-spacing: -1.5px;
+  margin: 0;
+}
+
+h2 {
+  font-size: clamp(22px, 3vw, 36px);
+  letter-spacing: -0.5px;
+  margin: 0 0 8px;
+}
+
+p { margin: 0; }
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--bg-2); }
+::-webkit-scrollbar-thumb { background: var(--cream-dark); border-radius: 99px; }
