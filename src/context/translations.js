@@ -81,11 +81,11 @@ const t = {
         about_founder_quote:
             '"Every object should carry the fingerprint of the person who made it — and the story of where it came from."',
         about_founder_p1:
-            "Ama grew up surrounded by the weavers, potters, and jewellers of her grandmother's village in Ghana. From an early age she understood that handmade objects hold something no factory can replicate — memory, intention, and soul.",
+            "Christelle grew up surrounded by the weavers, potters, and jewellers of her grandmother's village in Ghana. From an early age she understood that handmade objects hold something no factory can replicate — memory, intention, and soul.",
         about_founder_p2:
             "After studying design in Paris and working in luxury retail in London, she returned to West Africa with one mission: to build a bridge between the world's finest artisans and the people who would truly cherish their work.",
         about_founder_p3:
-            'Today, Ewenam is that bridge — and Ama continues to travel, listen, and champion the makers who pour their lives into every piece.',
+            'Today, Ewenam is that bridge — and Christelle continues to travel, listen, and champion the makers who pour their lives into every piece.',
 
         // About — scroll hint
         about_scroll: 'Scroll',
@@ -241,16 +241,16 @@ const t = {
         about_timeline_eyebrow: 'Comment nous en sommes arrivés là',
         about_timeline_title: 'Notre parcours',
         about_founder_eyebrow: 'Rencontrez la Fondatrice',
-        about_founder_name: 'Ama Ewenam Koffi',
+        about_founder_name: 'Christelle Adou',
         about_founder_role: 'Fondatrice & Directrice Créative',
         about_founder_quote:
             "« Chaque objet doit porter l'empreinte de celui qui l'a créé — et l'histoire de là où il vient. »",
         about_founder_p1:
-            "Ama a grandi entourée des tisserands, potiers et bijoutiers du village de sa grand-mère au Ghana. Dès son plus jeune âge, elle a compris que les objets faits main portent quelque chose qu'aucune usine ne peut reproduire — la mémoire, l'intention et l'âme.",
+            "Christelle a grandi entourée des tisserands, potiers et bijoutiers du village de sa grand-mère au Ghana. Dès son plus jeune âge, elle a compris que les objets faits main portent quelque chose qu'aucune usine ne peut reproduire — la mémoire, l'intention et l'âme.",
         about_founder_p2:
             "Après des études de design à Paris et une carrière dans le commerce de luxe à Londres, elle est retournée en Afrique de l'Ouest avec une seule mission : construire un pont entre les meilleurs artisans du monde et les personnes qui chériraient vraiment leur travail.",
         about_founder_p3:
-            "Aujourd'hui, Ewenam est ce pont — et Ama continue de voyager, d'écouter et de défendre les créateurs qui mettent leur vie dans chaque pièce.",
+            "Aujourd'hui, Ewenam est ce pont — et Christelle continue de voyager, d'écouter et de défendre les créateurs qui mettent leur vie dans chaque pièce.",
 
         // About — scroll hint
         about_scroll: 'Défiler',
