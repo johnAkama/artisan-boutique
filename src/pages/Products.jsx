@@ -3,12 +3,14 @@ import products from '../data/products';
 import ProductCard from '../components/ProductCard';
 import { useLang } from '../context/LangContext';
 import tx from '../context/translations';
+import { useBreakpoint } from '../hooks/useBreakpoint';
 
 const allCategories = [...new Set(products.map((p) => p.category))];
 
 function Products() {
     const { lang } = useLang();
     const t = tx[lang];
+    const { isMobile } = useBreakpoint();
     const [active, setActive] = useState(null);
 
     const categories = [t.products_filter_all, ...allCategories];
@@ -17,7 +19,7 @@ function Products() {
         : products.filter((p) => p.category === active);
 
     return (
-        <div style={{ padding: '48px 32px', textAlign: 'left' }}>
+        <div style={{ padding: isMobile ? '32px 20px' : '48px 32px', textAlign: 'left' }}>
             {/* Header */}
             <p style={{ color: 'var(--gold)', fontWeight: 600, fontSize: '13px', letterSpacing: '2px', textTransform: 'uppercase', marginBottom: '12px' }}>
                 {t.products_eyebrow}

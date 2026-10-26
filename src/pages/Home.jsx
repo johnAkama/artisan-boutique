@@ -4,15 +4,15 @@ import heroImg from '../assets/hero.png';
 import products from '../data/products';
 import { useLang } from '../context/LangContext';
 import tx from '../context/translations';
+import { useBreakpoint } from '../hooks/useBreakpoint';
 
-/* ── Fade-in on scroll ── */
 function useFadeIn(delay = 0) {
     const ref = useRef(null);
     const [visible, setVisible] = useState(false);
     useEffect(() => {
         const obs = new IntersectionObserver(
             ([e]) => { if (e.isIntersecting) { setVisible(true); obs.disconnect(); } },
-            { threshold: 0.12 }
+            { threshold: 0.1 }
         );
         if (ref.current) obs.observe(ref.current);
         return () => obs.disconnect();
@@ -20,7 +20,6 @@ function useFadeIn(delay = 0) {
     return { ref, style: { opacity: visible ? 1 : 0, transform: visible ? 'translateY(0)' : 'translateY(28px)', transition: `opacity 0.6s ease ${delay}s, transform 0.6s ease ${delay}s` } };
 }
 
-/* ── Parallax ── */
 function useParallax(speed = 0.35) {
     const ref = useRef(null);
     const [offset, setOffset] = useState(0);
@@ -59,9 +58,8 @@ function FeaturedCard({ product, delay, viewLabel }) {
     const fade = useFadeIn(delay);
     const [hovered, setHovered] = useState(false);
     return (
-        <div ref={fade.ref} style={{ ...fade.style }}
-            onMouseEnter={() => setHovered(true)}
-            onMouseLeave={() => setHovered(false)}
+        <div ref={fade.ref} style={fade.style}
+            onMouseEnter={() => setHovered(true)} onMouseLeave={() => setHovered(false)}
         >
             <div style={{
                 borderRadius: '20px', overflow: 'hidden',
@@ -70,7 +68,7 @@ function FeaturedCard({ product, delay, viewLabel }) {
                 transform: hovered ? 'translateY(-6px)' : 'translateY(0)',
                 transition: 'transform 0.25s ease, box-shadow 0.25s ease',
             }}>
-                <div style={{ position: 'relative', overflow: 'hidden', height: '240px', background: 'var(--bg-2)' }}>
+                <div style={{ position: 'relative', overflow: 'hidden', height: '220px', background: 'var(--bg-2)' }}>
                     <img src={product.image} alt={product.name} style={{
                         width: '100%', height: '100%', objectFit: 'cover',
                         transform: hovered ? 'scale(1.06)' : 'scale(1)',
@@ -99,9 +97,7 @@ function FeaturedCard({ product, delay, viewLabel }) {
                         }}
                             onMouseEnter={e => { e.currentTarget.style.background = 'var(--accent)'; e.currentTarget.style.color = '#fff'; }}
                             onMouseLeave={e => { e.currentTarget.style.background = 'var(--accent-bg)'; e.currentTarget.style.color = 'var(--accent)'; }}
-                        >
-                            {viewLabel}
-                        </Link>
+                        >{viewLabel}</Link>
                     </div>
                 </div>
             </div>
@@ -112,6 +108,7 @@ function FeaturedCard({ product, delay, viewLabel }) {
 function Home() {
     const { lang } = useLang();
     const t = tx[lang];
+    const { isMobile, isTablet } = useBreakpoint();
     const { ref: heroRef, offset } = useParallax(0.4);
     const f1 = useFadeIn(0); const f2 = useFadeIn(0.1); const f3 = useFadeIn(0.2); const f4 = useFadeIn(0.3);
     const fadeFeatures = [f1, f2, f3, f4];
@@ -123,30 +120,29 @@ function Home() {
         { icon: featureIcons[3], title: t.feat_title4, desc: t.feat_desc4 },
     ];
 
+    const heroPad = isMobile ? '0 24px' : isTablet ? '0 40px' : '0 72px';
+    const secPad = isMobile ? '56px 20px' : isTablet ? '72px 32px' : '96px 48px';
+
     return (
         <div style={{ textAlign: 'left' }}>
 
             {/* ══ HERO ══ */}
-            <section style={{ position: 'relative', height: '94vh', overflow: 'hidden', minHeight: '560px' }}>
+            <section style={{ position: 'relative', height: isMobile ? '100svh' : '94vh', overflow: 'hidden', minHeight: '520px' }}>
                 <div ref={heroRef} style={{
                     position: 'absolute', inset: '-80px 0',
-                    backgroundImage: `url(${heroImg})`,
-                    backgroundSize: 'cover', backgroundPosition: 'center',
+                    backgroundImage: `url(${heroImg})`, backgroundSize: 'cover', backgroundPosition: 'center',
                     transform: `translateY(${offset}px)`, willChange: 'transform',
                 }} />
-                <div style={{
-                    position: 'absolute', inset: 0,
-                    background: 'linear-gradient(110deg, rgba(44,26,14,0.78) 0%, rgba(44,26,14,0.35) 55%, rgba(44,26,14,0.15) 100%)',
-                }} />
+                <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(110deg, rgba(44,26,14,0.82) 0%, rgba(44,26,14,0.45) 60%, rgba(44,26,14,0.2) 100%)' }} />
                 <div style={{
                     position: 'relative', zIndex: 1, height: '100%',
                     display: 'flex', flexDirection: 'column', justifyContent: 'center',
-                    padding: '0 72px', maxWidth: '860px',
+                    padding: heroPad, maxWidth: '860px',
                 }}>
                     <div style={{
                         display: 'inline-flex', alignItems: 'center', gap: '8px',
                         background: 'rgba(196,154,108,0.2)', border: '1px solid rgba(196,154,108,0.5)',
-                        borderRadius: '999px', padding: '6px 16px', marginBottom: '28px', width: 'fit-content',
+                        borderRadius: '999px', padding: '6px 16px', marginBottom: '24px', width: 'fit-content',
                     }}>
                         <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: 'var(--gold)', display: 'inline-block' }} />
                         <span style={{ color: 'var(--gold)', fontSize: '12px', fontWeight: 600, letterSpacing: '2px', textTransform: 'uppercase' }}>
@@ -155,44 +151,38 @@ function Home() {
                     </div>
                     <h1 style={{
                         color: '#fff', fontFamily: 'var(--serif)',
-                        fontSize: 'clamp(44px, 7.5vw, 96px)',
-                        lineHeight: 1.0, letterSpacing: '-2px', margin: '0 0 28px',
+                        fontSize: isMobile ? 'clamp(38px, 11vw, 56px)' : 'clamp(44px, 7.5vw, 96px)',
+                        lineHeight: 1.0, letterSpacing: '-2px', margin: '0 0 24px',
                     }}>
                         {t.home_hero_line1}<br />
                         <span style={{ color: 'var(--gold)' }}>{t.home_hero_line2}</span>
                     </h1>
                     <p style={{
-                        color: 'rgba(255,255,255,0.72)', fontSize: '18px',
-                        lineHeight: 1.75, maxWidth: '440px', margin: '0 0 44px',
+                        color: 'rgba(255,255,255,0.72)', fontSize: isMobile ? '15px' : '18px',
+                        lineHeight: 1.75, maxWidth: '440px', margin: '0 0 36px',
                     }}>
                         {t.home_hero_sub}
                     </p>
-                    <div style={{ display: 'flex', gap: '14px', flexWrap: 'wrap' }}>
+                    <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
                         <Link to="/products" style={{
-                            padding: '14px 34px', borderRadius: '999px',
+                            padding: isMobile ? '12px 24px' : '14px 34px', borderRadius: '999px',
                             background: 'var(--accent)', color: '#fff',
-                            fontWeight: 600, fontSize: '15px', textDecoration: 'none',
-                            boxShadow: '0 4px 24px rgba(139,94,60,0.5)',
-                            transition: 'all 0.2s ease',
+                            fontWeight: 600, fontSize: isMobile ? '14px' : '15px', textDecoration: 'none',
+                            boxShadow: '0 4px 24px rgba(139,94,60,0.5)', transition: 'all 0.2s ease',
                         }}
                             onMouseEnter={e => { e.currentTarget.style.background = 'var(--accent-hover)'; e.currentTarget.style.transform = 'scale(1.03)'; }}
                             onMouseLeave={e => { e.currentTarget.style.background = 'var(--accent)'; e.currentTarget.style.transform = 'scale(1)'; }}
-                        >
-                            {t.home_hero_cta1}
-                        </Link>
+                        >{t.home_hero_cta1}</Link>
                         <Link to="/about" style={{
-                            padding: '14px 34px', borderRadius: '999px',
+                            padding: isMobile ? '12px 24px' : '14px 34px', borderRadius: '999px',
                             background: 'rgba(255,255,255,0.1)', color: '#fff',
-                            fontWeight: 500, fontSize: '15px', textDecoration: 'none',
-                            border: '1px solid rgba(255,255,255,0.3)',
-                            backdropFilter: 'blur(8px)',
+                            fontWeight: 500, fontSize: isMobile ? '14px' : '15px', textDecoration: 'none',
+                            border: '1px solid rgba(255,255,255,0.3)', backdropFilter: 'blur(8px)',
                             transition: 'all 0.2s ease',
                         }}
                             onMouseEnter={e => e.currentTarget.style.background = 'rgba(255,255,255,0.18)'}
                             onMouseLeave={e => e.currentTarget.style.background = 'rgba(255,255,255,0.1)'}
-                        >
-                            {t.home_hero_cta2}
-                        </Link>
+                        >{t.home_hero_cta2}</Link>
                     </div>
                 </div>
 
@@ -201,23 +191,24 @@ function Home() {
                     position: 'absolute', bottom: 0, left: 0, right: 0,
                     background: 'rgba(44,26,14,0.65)', backdropFilter: 'blur(12px)',
                     borderTop: '1px solid rgba(255,255,255,0.1)',
-                    display: 'flex', justifyContent: 'center', gap: '0',
+                    display: 'flex', justifyContent: 'center', flexWrap: 'wrap',
                 }}>
                     {[['200+', t.stat_artisans], ['14', t.stat_countries], ['5,000+', t.stat_sold], ['4.9★', t.stat_rating]].map(([num, label], i) => (
                         <div key={label} style={{
-                            padding: '20px 48px', textAlign: 'center',
+                            padding: isMobile ? '14px 20px' : '20px 40px', textAlign: 'center',
                             borderRight: i < 3 ? '1px solid rgba(255,255,255,0.1)' : 'none',
+                            flex: isMobile ? '1 1 45%' : 'none',
                         }}>
-                            <div style={{ color: 'var(--gold)', fontFamily: 'var(--serif)', fontSize: '22px', fontWeight: 700 }}>{num}</div>
-                            <div style={{ color: 'rgba(255,255,255,0.6)', fontSize: '12px', letterSpacing: '1px', textTransform: 'uppercase', marginTop: '2px' }}>{label}</div>
+                            <div style={{ color: 'var(--gold)', fontFamily: 'var(--serif)', fontSize: isMobile ? '18px' : '22px', fontWeight: 700 }}>{num}</div>
+                            <div style={{ color: 'rgba(255,255,255,0.6)', fontSize: '11px', letterSpacing: '1px', textTransform: 'uppercase', marginTop: '2px' }}>{label}</div>
                         </div>
                     ))}
                 </div>
             </section>
 
             {/* ══ FEATURES ══ */}
-            <section style={{ background: 'var(--bg-2)', borderBottom: '1px solid var(--border)', padding: '72px 48px' }}>
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '32px', maxWidth: '1100px', margin: '0 auto' }}>
+            <section style={{ background: 'var(--bg-2)', borderBottom: '1px solid var(--border)', padding: secPad }}>
+                <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : 'repeat(auto-fit, minmax(220px, 1fr))', gap: '28px', maxWidth: '1100px', margin: '0 auto' }}>
                     {features.map(({ icon, title, desc }, i) => (
                         <div key={title} ref={fadeFeatures[i].ref} style={{ display: 'flex', gap: '16px', alignItems: 'flex-start', ...fadeFeatures[i].style }}>
                             <div style={{
@@ -235,8 +226,8 @@ function Home() {
             </section>
 
             {/* ══ FEATURED PRODUCTS ══ */}
-            <section style={{ padding: '96px 48px', maxWidth: '1200px', margin: '0 auto', width: '100%', boxSizing: 'border-box' }}>
-                <div style={{ textAlign: 'center', marginBottom: '56px' }}>
+            <section style={{ padding: secPad, maxWidth: '1200px', margin: '0 auto', width: '100%', boxSizing: 'border-box' }}>
+                <div style={{ textAlign: 'center', marginBottom: '48px' }}>
                     <p style={{ color: 'var(--gold)', fontWeight: 600, fontSize: '12px', letterSpacing: '2.5px', textTransform: 'uppercase', marginBottom: '12px' }}>
                         {t.featured_eyebrow}
                     </p>
@@ -245,76 +236,70 @@ function Home() {
                         {t.featured_sub}
                     </p>
                 </div>
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '28px' }}>
+                <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : 'repeat(auto-fill, minmax(260px, 1fr))', gap: '24px' }}>
                     {products.slice(0, 3).map((p, i) => <FeaturedCard key={p.id} product={p} delay={i * 0.1} viewLabel={t.featured_view} />)}
                 </div>
-                <div style={{ textAlign: 'center', marginTop: '48px' }}>
+                <div style={{ textAlign: 'center', marginTop: '40px' }}>
                     <Link to="/products" style={{
                         display: 'inline-block', padding: '14px 40px', borderRadius: '999px',
                         border: '2px solid var(--accent)', color: 'var(--accent)',
-                        fontWeight: 600, fontSize: '15px', textDecoration: 'none',
-                        transition: 'all 0.2s ease',
+                        fontWeight: 600, fontSize: '15px', textDecoration: 'none', transition: 'all 0.2s ease',
                     }}
                         onMouseEnter={e => { e.currentTarget.style.background = 'var(--accent)'; e.currentTarget.style.color = '#fff'; }}
                         onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = 'var(--accent)'; }}
-                    >
-                        {t.featured_all}
-                    </Link>
+                    >{t.featured_all}</Link>
                 </div>
             </section>
 
             {/* ══ PARALLAX BANNER ══ */}
-            <section style={{ position: 'relative', height: '380px', overflow: 'hidden' }}>
+            <section style={{ position: 'relative', height: isMobile ? 'auto' : '380px', overflow: 'hidden', minHeight: '280px' }}>
                 <div style={{
                     position: 'absolute', inset: '-60px 0',
                     backgroundImage: `url(${heroImg})`, backgroundSize: 'cover', backgroundPosition: 'center 30%',
                 }} />
                 <div style={{ position: 'absolute', inset: 0, background: 'rgba(44,26,14,0.72)' }} />
                 <div style={{
-                    position: 'relative', zIndex: 1, height: '100%',
+                    position: 'relative', zIndex: 1,
                     display: 'flex', flexDirection: 'column', alignItems: 'center',
-                    justifyContent: 'center', textAlign: 'center', padding: '0 32px',
+                    justifyContent: 'center', textAlign: 'center',
+                    padding: isMobile ? '56px 24px' : '0 32px',
+                    height: isMobile ? 'auto' : '100%',
                 }}>
                     <p style={{ color: 'var(--gold)', fontWeight: 600, fontSize: '12px', letterSpacing: '2.5px', textTransform: 'uppercase', margin: '0 0 16px' }}>
                         {t.promise_eyebrow}
                     </p>
-                    <h2 style={{ color: '#fff', fontSize: 'clamp(26px, 4vw, 48px)', margin: '0 0 18px', letterSpacing: '-1px' }}>
+                    <h2 style={{ color: '#fff', fontSize: 'clamp(22px, 4vw, 48px)', margin: '0 0 18px', letterSpacing: '-1px' }}>
                         {t.promise_title}
                     </h2>
-                    <p style={{ color: 'rgba(255,255,255,0.68)', fontSize: '16px', maxWidth: '500px', lineHeight: 1.75, margin: '0 0 32px' }}>
+                    <p style={{ color: 'rgba(255,255,255,0.68)', fontSize: isMobile ? '14px' : '16px', maxWidth: '500px', lineHeight: 1.75, margin: '0 0 32px' }}>
                         {t.promise_sub}
                     </p>
                     <Link to="/about" style={{
                         padding: '12px 30px', borderRadius: '999px',
                         background: 'var(--gold)', color: 'var(--text-h)',
-                        fontWeight: 700, fontSize: '14px', textDecoration: 'none',
-                        transition: 'opacity 0.2s ease',
+                        fontWeight: 700, fontSize: '14px', textDecoration: 'none', transition: 'opacity 0.2s ease',
                     }}
                         onMouseEnter={e => e.currentTarget.style.opacity = '0.85'}
                         onMouseLeave={e => e.currentTarget.style.opacity = '1'}
-                    >
-                        {t.promise_cta}
-                    </Link>
+                    >{t.promise_cta}</Link>
                 </div>
             </section>
 
             {/* ══ TESTIMONIALS ══ */}
-            <section style={{ background: 'var(--bg-2)', padding: '96px 48px', borderTop: '1px solid var(--border)' }}>
-                <div style={{ textAlign: 'center', marginBottom: '56px' }}>
+            <section style={{ background: 'var(--bg-2)', padding: secPad, borderTop: '1px solid var(--border)' }}>
+                <div style={{ textAlign: 'center', marginBottom: '48px' }}>
                     <p style={{ color: 'var(--gold)', fontWeight: 600, fontSize: '12px', letterSpacing: '2.5px', textTransform: 'uppercase', marginBottom: '12px' }}>
                         {t.testi_eyebrow}
                     </p>
                     <h2>{t.testi_title}</h2>
                 </div>
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '24px', maxWidth: '1100px', margin: '0 auto' }}>
+                <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : 'repeat(auto-fit, minmax(260px, 1fr))', gap: '20px', maxWidth: '1100px', margin: '0 auto' }}>
                     {testimonials.map(({ name, location, quote, rating }, i) => {
                         const fade = useFadeIn(i * 0.12);
                         return (
                             <div key={name} ref={fade.ref} style={{
-                                ...fade.style,
-                                background: 'var(--bg)', border: '1px solid var(--border)',
-                                borderRadius: '20px', padding: '32px',
-                                boxShadow: 'var(--shadow-sm)',
+                                ...fade.style, background: 'var(--bg)', border: '1px solid var(--border)',
+                                borderRadius: '20px', padding: isMobile ? '24px' : '32px', boxShadow: 'var(--shadow-sm)',
                             }}>
                                 <StarRating count={rating} />
                                 <p style={{ fontSize: '15px', lineHeight: 1.75, color: 'var(--text-h)', margin: '0 0 24px', fontStyle: 'italic' }}>
@@ -322,13 +307,11 @@ function Home() {
                                 </p>
                                 <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
                                     <div style={{
-                                        width: '40px', height: '40px', borderRadius: '50%',
+                                        width: '40px', height: '40px', borderRadius: '50%', flexShrink: 0,
                                         background: 'var(--cream)', border: '2px solid var(--cream-dark)',
                                         display: 'flex', alignItems: 'center', justifyContent: 'center',
                                         fontFamily: 'var(--serif)', fontWeight: 700, color: 'var(--accent)', fontSize: '16px',
-                                    }}>
-                                        {name[0]}
-                                    </div>
+                                    }}>{name[0]}</div>
                                     <div>
                                         <div style={{ fontWeight: 600, fontSize: '14px', color: 'var(--text-h)' }}>{name}</div>
                                         <div style={{ fontSize: '12px', color: 'var(--text)' }}>{location}</div>
@@ -341,32 +324,25 @@ function Home() {
             </section>
 
             {/* ══ FINAL CTA ══ */}
-            <section style={{
-                padding: '96px 48px', textAlign: 'center',
-                background: 'var(--bg)',
-                borderTop: '1px solid var(--border)',
-            }}>
+            <section style={{ padding: secPad, textAlign: 'center', background: 'var(--bg)', borderTop: '1px solid var(--border)' }}>
                 <p style={{ color: 'var(--gold)', fontWeight: 600, fontSize: '12px', letterSpacing: '2.5px', textTransform: 'uppercase', marginBottom: '16px' }}>
                     {t.cta_eyebrow}
                 </p>
-                <h2 style={{ fontSize: 'clamp(28px, 4vw, 52px)', marginBottom: '18px', maxWidth: '600px', margin: '0 auto 18px' }}>
+                <h2 style={{ fontSize: 'clamp(24px, 4vw, 52px)', maxWidth: '600px', margin: '0 auto 18px' }}>
                     {t.cta_title}
                 </h2>
-                <p style={{ color: 'var(--text)', fontSize: '16px', maxWidth: '440px', margin: '0 auto 40px', lineHeight: 1.75 }}>
+                <p style={{ color: 'var(--text)', fontSize: isMobile ? '15px' : '16px', maxWidth: '440px', margin: '0 auto 36px', lineHeight: 1.75 }}>
                     {t.cta_sub}
                 </p>
                 <Link to="/products" style={{
-                    display: 'inline-block', padding: '16px 44px', borderRadius: '999px',
-                    background: 'var(--accent)', color: '#fff',
-                    fontWeight: 700, fontSize: '16px', textDecoration: 'none',
-                    boxShadow: '0 6px 28px rgba(139,94,60,0.35)',
-                    transition: 'all 0.2s ease',
+                    display: 'inline-block', padding: isMobile ? '14px 32px' : '16px 44px', borderRadius: '999px',
+                    background: 'var(--accent)', color: '#fff', fontWeight: 700,
+                    fontSize: isMobile ? '15px' : '16px', textDecoration: 'none',
+                    boxShadow: '0 6px 28px rgba(139,94,60,0.35)', transition: 'all 0.2s ease',
                 }}
                     onMouseEnter={e => { e.currentTarget.style.background = 'var(--accent-hover)'; e.currentTarget.style.transform = 'scale(1.03)'; }}
                     onMouseLeave={e => { e.currentTarget.style.background = 'var(--accent)'; e.currentTarget.style.transform = 'scale(1)'; }}
-                >
-                    {t.cta_btn}
-                </Link>
+                >{t.cta_btn}</Link>
             </section>
 
         </div>
