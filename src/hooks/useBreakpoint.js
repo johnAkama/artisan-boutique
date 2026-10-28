@@ -6,6 +6,7 @@ export function useBreakpoint() {
     );
     useEffect(() => {
         const fn = () => setWidth(window.innerWidth);
+        
         window.addEventListener('resize', fn, { passive: true });
         return () => window.removeEventListener('resize', fn);
     }, []);

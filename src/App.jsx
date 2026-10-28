@@ -5,8 +5,10 @@ import Footer from './components/Footer';
 import PageLoader from './components/PageProgress';
 import PageTransition from './components/PageTransition';
 import Home from './pages/Home';
-import Products from './pages/Products';
+import Shop from './pages/Shop';
 import About from './pages/About';
+import Story from './pages/Story';
+import Contact from './pages/Contact';
 
 function App() {
     return (
@@ -17,9 +19,13 @@ function App() {
                 <main style={{ padding: 0 }}>
                     <PageTransition>
                         <Routes>
-                            <Route path="/" element={<Home />} />
-                            <Route path="/products" element={<Products />} />
-                            <Route path="/about" element={<About />} />
+                            <Route path="/"        element={<Home />} />
+                            <Route path="/shop"    element={<Shop />} />
+                            <Route path="/about"   element={<About />} />
+                            <Route path="/story"   element={<Story />} />
+                            <Route path="/contact" element={<Contact />} />
+                            {/* legacy redirect */}
+                            <Route path="/products" element={<Shop />} />
                         </Routes>
                     </PageTransition>
                 </main>
